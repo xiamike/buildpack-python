@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 # Build Path: /app/.heroku/python/
-# Build Deps: libraries/sqlite
 
 OUT_PREFIX=$1
 
