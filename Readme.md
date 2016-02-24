@@ -1,11 +1,9 @@
 # Heroku Buildpack: Python
-![buildpack_python](https://cloud.githubusercontent.com/assets/51578/13116296/5f4058f0-d569-11e5-8129-bffd7be091e6.jpg)
 
-This is the official [Heroku buildpack](http://devcenter.heroku.com/articles/buildpacks) for Python apps, powered by [pip](http://www.pip-installer.org/) and other excellent software.
+This is a fork of the official [Heroku buildpack](http://devcenter.heroku.com/articles/buildpacks) for Python apps, powered by [pip](http://www.pip-installer.org/) and other excellent software.
 
-Recommended web frameworks include **Django** and **Flask**. The recommended webserver is **Gunicorn**. There are no restrictions around what software can be used (as long as it's pip-installable). Web processes must bind to `$PORT`, and only the HTTP protocol is permitted for incoming connections.
+This buildpack differs from the standard Heroku buildpack in that it supports deploying the latest version of Python built with shared libraries; this is required to build OpenCV on top of it to support our [OpenCV](http://github.com/computationaltextiles/buildpack-opencv) buildpack, which installs the OpenCV Python package.
 
-Some Python packages with obscure C dependencies (e.g. scipy) are [not compatible](https://devcenter.heroku.com/articles/python-c-deps). 
 
 See it in Action
 ----------------
@@ -13,7 +11,7 @@ See it in Action
 Deploying a Python application couldn't be easier:
 
     $ ls
-    Procfile  requirements.txt  web.py
+    Procfile  requirements.txt  runtime.txt  web.py
 
     $ heroku create --buildpack git://github.com/heroku/heroku-buildpack-python.git
 
@@ -32,6 +30,8 @@ Deploying a Python application couldn't be easier:
 
 A `requirements.txt` file must be present at the root of your application's repository.
 
+A `runtime.txt` file is required to select the appropriate runtime (see below); the default is not available in this fork.
+
 You can also specify the latest production relase of this buildpack for upcoming builds of an existing application:
 
     $ heroku buildpacks:set heroku/python
@@ -49,7 +49,6 @@ Specific versions of the Python runtime can be specified with a `runtime.txt` fi
 Runtime options include:
 
 - `python-2.7.11`
-- `python-3.5.1`
-- `pypy-4.0.1` (unsupported, experimental)
+- `python-2.7.11-shared` (same, but built as a shared library)
 
 Other [unsupported runtimes](https://github.com/heroku/heroku-buildpack-python/tree/master/builds/runtimes) are available as well. Use at your own risk. 
